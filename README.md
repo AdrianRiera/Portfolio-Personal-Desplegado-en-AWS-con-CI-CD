@@ -23,6 +23,7 @@ Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la 
 ## Seguridad
 
 - Cifrado TLS mediante ACM.
+  
 ![Certificado](images/certificado.png)
 
 - Acceso al bucket S3 restringido únicamente a CloudFront.  
