@@ -43,7 +43,7 @@ La política IAM asociada al usuario de despliegue permite únicamente:
 - Operaciones `s3:PutObject` y `s3:DeleteObject` sobre el bucket específico.  
 - Creación de invalidaciones en la distribución de CloudFront.
 
-## Problemas 
+## Problemas y soluciones
 ### Problema 1: Certificado ACM
 El principal problema que me he encontrado ha sido a la hora de hacer el Certificado de ACM, ya que CloudFront solo acepta certificados de ACM que estén en la región us-east-1.
 ### Problema 2: Alias en Route 53
