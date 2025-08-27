@@ -23,7 +23,8 @@ Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la 
 ## Seguridad
 
 - Cifrado TLS mediante ACM.
-    ![Certificado](images/certificado.png)
+![Certificado](images/certificado.png)
+
 - Acceso al bucket S3 restringido únicamente a CloudFront.  
 - Política de menor privilegio para el usuario de despliegue de GitHub Actions (`gh-actions-portfolio`). Aquí es donde sacamos (`AWS_ACCESS_KEY_ID` y `AWS_SECRET_ACCESS_KEY`).
 - AWS Shield Standard protección contra ataques DDoS
