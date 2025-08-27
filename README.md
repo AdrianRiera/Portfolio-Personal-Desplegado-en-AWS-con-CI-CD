@@ -10,11 +10,13 @@ La infraestructura de AWS utilizada incluye:
 - **Amazon S3**: Almacenamiento de los archivos estáticos del portfolio, con políticas que restringen el acceso al público y que solo CloudFront puede servir el contenido.  
 - **Amazon CloudFront**: CDN que distribuye el contenido globalmente, buscando baja latencia y alta disponibilidad.  
 - **AWS Certificate Manager (ACM)**: Certificado TLS para habilitar HTTPS y asegurar la comunicación segura.  
-- **AWS WAF y AWS Shield**: Protección contra ataques DDoS y vulnerabilidades comunes de aplicaciones web.  
+- **AWS Shield Standard**: Aprovechando AWS Shield Standard que nos da una protección básica contra ataques DDoS ya que se integra automaticamente con Route 53.  
 
 La arquitectura completa sigue este flujo:
 
-Opcionalmente, se detecta la Edge Location de CloudFront a la que está conectado el usuario.
+Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la que está conectado el usuario. Como muestro en el ejemplo me conecto a través de una VPN a un servidor localizado en Paises Bajos. Cloudfront al detectarlo, me busca el Edge Location con menor latencia para distribuirme el contenido (En este caso ha sido una Edge Location en London):
+
+
 
 ## Seguridad
 
