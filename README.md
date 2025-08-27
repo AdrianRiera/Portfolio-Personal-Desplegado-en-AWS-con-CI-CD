@@ -15,15 +15,15 @@ La infraestructura de AWS utilizada incluye:
 La arquitectura completa sigue este flujo:
 
 Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la que está conectado el usuario. Como muestro en el ejemplo me conecto a través de una VPN a un servidor localizado en Paises Bajos. Cloudfront al detectarlo, me busca el Edge Location con menor latencia para distribuirme el contenido (En este caso ha sido una Edge Location en London):
-
+(images/captura-edge-location.png)
+(images/localizacion.png)
 
 
 ## Seguridad
 
 - Cifrado TLS mediante ACM.  
 - Acceso al bucket S3 restringido únicamente a CloudFront.  
-- Formulario de contacto protegido con límites de caracteres y captchas.  
-- Política de menor privilegio para el usuario de despliegue de GitHub Actions (`gh-actions-portfolio`).
+- Política de menor privilegio para el usuario de despliegue de GitHub Actions (`gh-actions-portfolio`). Aquí es donde sacamos (`AWS_ACCESS_KEY_ID` y `AWS_SECRET_ACCESS_KEY`).
 
 ## Automatización con GitHub Actions
 
