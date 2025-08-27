@@ -14,7 +14,7 @@ La infraestructura de AWS utilizada incluye:
 
 La arquitectura completa sigue este flujo:
 
-Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la que está conectado el usuario. Como muestro en el ejemplo me conecto a través de una VPN a un servidor localizado en Países Bajos. Cloudfront al detectarlo, me busca el Edge Location con la menor latencia para distribuirme el contenido (En este caso ha sido una Edge Location en London):
+Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la que está conectado el usuario. Como muestro en el ejemplo me conecto a través de una VPN a un servidor localizado en Países Bajos. CloudFront al detectarlo, me busca el Edge Location con la menor latencia para distribuirme el contenido (En este caso ha sido una Edge Location en London):
 
 ![Captura Edge Location](images/captura-edge-location.png)
 ![Localización](images/localizacion.png)
