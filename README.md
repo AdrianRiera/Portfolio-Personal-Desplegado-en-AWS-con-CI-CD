@@ -50,25 +50,22 @@ Poniendo un ejemplo de **~400 requests al mes**, los precios serían prácticame
 A continuación, los servicios y sus costes aproximados (fuente: precios oficiales de AWS Europa, agosto 2025, región EU-South-2):
 
 - **Amazon S3 (almacenamiento estático):**
-  - 5 GB almacenados ≈ **0,12 €/mes**
-  - 400 requests (PUT/GET) ≈ **0,01 €/mes**
+  - Para este caso donde el contenido no supera los 5GB almacenados es prácticamente gratuito
 
 - **Amazon CloudFront (CDN global):**
-  - 1 GB de transferencia de datos ≈ **0,08 €**
-  - 400 requests ≈ **0,00 €** (se cobran por cada millón de peticiones, ~0,007 €/10k)
+  - Se empezaría a cobrar al llegar a 1 GB de transferencia de datos (para un portfolio no sería el caso)
+  - 400 requests ≈ **0,00 €** (se cobran por cada millón de peticiones)
 
 - **Amazon Route 53 (gestión de dominio y DNS):**
   - Registro de dominio `.com` ≈ **15 €/año** 
-  - 1 zona hospedada ≈ **0,50 €/mes**
 
 - **AWS Certificate Manager (ACM):**
   - Certificados TLS emitidos por ACM → **Gratis**
 
 - **AWS Shield Standard:**
   - Protección básica DDoS incluida → **Gratis**
-
-📌 **Coste mensual estimado total:** ~**1,54 €/mes**  
-📌 **Coste anual estimado total:** ~**21,5 €/año**
+  
+📌 **Coste anual estimado total:** ~**20-15 €/año**
 
 ## Problemas y soluciones
 ### Problema 1: Certificado ACM
