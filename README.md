@@ -57,7 +57,8 @@ A continuación, los servicios y sus costes aproximados (fuente: precios oficial
   - 400 requests ≈ **0,00 €** (se cobran por cada millón de peticiones)
 
 - **Amazon Route 53 (gestión de dominio y DNS):**
-  - Registro de dominio `.com` ≈ **15 €/año** 
+  - Registro de dominio `.com` ≈ **15 €/año**
+  - Zona hosteada  ≈ **0,40€/mensual**
 
 - **AWS Certificate Manager (ACM):**
   - Certificados TLS emitidos por ACM → **Gratis**
@@ -65,7 +66,7 @@ A continuación, los servicios y sus costes aproximados (fuente: precios oficial
 - **AWS Shield Standard:**
   - Protección básica DDoS incluida → **Gratis**
   
-📌 **Coste anual estimado total:** ~**20-15 €/año**
+📌 **Coste anual estimado total:** ~**20-22 €/año**
 
 ## Problemas y soluciones
 ### Problema 1: Certificado ACM
