@@ -72,5 +72,5 @@ Otro problema que he solucionado rápidamente ha sido no crear los Alias en Rout
 ## Despliegue
 
 El link para acceder al portfolio: [https://portfolio-adrianriera.com](https://portfolio-adrianriera.com)
-![Diagrama](images/PortfolioAWS.png)
+![Diagrama](images/PortfolioAWS_1.png)
 
