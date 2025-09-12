@@ -9,9 +9,8 @@ La infraestructura de AWS utilizada incluye:
 - **Amazon Route 53**: Registro del dominio `portfolio-adrianriera.com` y gestión de DNS.  
 - **Amazon S3**: Almacenamiento de los archivos estáticos del portfolio, con políticas que restringen el acceso al público y que solo CloudFront puede servir el contenido.  
 - **Amazon CloudFront**: CDN que distribuye el contenido globalmente, buscando baja latencia y alta disponibilidad.  
-- **AWS Certificate Manager (ACM)**: Certificado TLS para habilitar HTTPS y asegurar la comunicación segura.  
-- **AWS Shield Standard**: Protección básica contra ataques DDoS ya que se integra automáticamente con Route 53.  
-
+- **AWS Certificate Manager (ACM)**: Certificado TLS para habilitar HTTPS y asegurar la comunicación segura.
+  
 La arquitectura completa sigue este flujo:
 
 Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la que está conectado el usuario. Como muestro en el ejemplo me conecto a través de una VPN a un servidor localizado en Países Bajos. CloudFront al detectarlo, me busca el Edge Location con la menor latencia posible para distribuirme el contenido (En este caso ha sido una Edge Location en London):
@@ -28,7 +27,6 @@ Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la 
 
 - Acceso al bucket S3 restringido únicamente a CloudFront.  
 - Política de menor privilegio para el usuario de despliegue de GitHub Actions (`gh-actions-portfolio`). Aquí es donde sacamos (`AWS_ACCESS_KEY_ID` y `AWS_SECRET_ACCESS_KEY`).
-- AWS Shield Standard protección contra ataques DDoS
 
 ## Automatización con GitHub Actions
 
@@ -62,9 +60,6 @@ A continuación, los servicios y sus costes aproximados (fuente: precios oficial
 
 - **AWS Certificate Manager (ACM):**
   - Certificados TLS emitidos por ACM → **Gratis**
-
-- **AWS Shield Standard:**
-  - Protección básica DDoS incluida → **Gratis**
   
 📌 **Coste anual estimado total:** ~**20-22 €/año**
 
