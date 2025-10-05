@@ -1,76 +1,75 @@
-# Portfolio-Personal-Desplegado-en-AWS-con-CI-CD
+# Personal-Portfolio-Deployed-on-AWS-with-CI-CD
 
-Este proyecto se basa en mi portfolio personal desplegado en AWS, con hosting seguro y automatización completa de despliegue mediante GitHub Actions.
+This project is based on my personal portfolio, deployed on AWS with secure hosting and full deployment automation using GitHub Actions.
 
-## Arquitectura
+## Architecture
 
-La infraestructura de AWS utilizada incluye:
+The AWS infrastructure used includes:
 
-- **Amazon Route 53**: Registro del dominio `portfolio-adrianriera.com` y gestión de DNS.  
-- **Amazon S3**: Almacenamiento de los archivos estáticos del portfolio, con políticas que restringen el acceso al público y que solo CloudFront puede servir el contenido.  
-- **Amazon CloudFront**: CDN que distribuye el contenido globalmente, buscando baja latencia y alta disponibilidad.  
-- **AWS Certificate Manager (ACM)**: Certificado TLS para habilitar HTTPS y asegurar la comunicación segura.
-  
-La arquitectura completa sigue este flujo:
+- **Amazon Route 53**: Domain registration for `portfolio-adrianriera.com` and DNS management.
+- **Amazon S3**: Storage for the portfolio's static files, with policies restricting public access, ensuring that only CloudFront can serve the content.
+- **Amazon CloudFront**: CDN that distributes the content globally, aiming for low latency and high availability.
+- **AWS Certificate Manager (ACM)**: TLS Certificate to enable HTTPS and secure communication.
 
-Un detalle del portfolio, es que se detecta la Edge Location de CloudFront a la que está conectado el usuario. Como muestro en el ejemplo me conecto a través de una VPN a un servidor localizado en Países Bajos. CloudFront al detectarlo, me busca el Edge Location con la menor latencia posible para distribuirme el contenido (En este caso ha sido una Edge Location en London):
+The complete architecture follows this flow:
+
+A detail of the portfolio is that it detects the CloudFront Edge Location to which the user is connected. As shown in the example, I connect via a VPN to a server located in the Netherlands. CloudFront, upon detecting this, finds the Edge Location with the lowest possible latency to distribute the content (In this case, it was an Edge Location in London):
 
 ![Captura Edge Location](images/captura-edge-location.png)
 ![Localización](images/localizacion.png)
 
 
-## Seguridad
+## Security
 
-- Cifrado TLS mediante ACM.
-  
+- TLS encryption via ACM.
+
 ![Certificado](images/certificado.png)
 
-- Acceso al bucket S3 restringido únicamente a CloudFront.  
-- Política de menor privilegio para el usuario de despliegue de GitHub Actions (`gh-actions-portfolio`). Aquí es donde sacamos (`AWS_ACCESS_KEY_ID` y `AWS_SECRET_ACCESS_KEY`).
+- Access to the S3 bucket is restricted solely to CloudFront.
+- Least-privilege policy for the GitHub Actions deployment user (`gh-actions-portfolio`). This is where we extract (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`).
 
-## Automatización con GitHub Actions
+## Automation with GitHub Actions
 
-Cada push a la rama `main` dispara automáticamente el workflow de despliegue que:
+Every push to the `main` branch automatically triggers the deployment workflow, which:
 
-1. Sincroniza los archivos del proyecto con el bucket S3 (`portfolio-adrian-prod`).  
-2. Invalida la caché de la distribución CloudFront para que los usuarios reciban la versión más reciente.  
-3. Usa secretos de GitHub (`AWS_ACCESS_KEY_ID` y `AWS_SECRET_ACCESS_KEY`) para autenticar con AWS de forma segura.
+1. Syncs the project files with the S3 bucket (`portfolio-adrian-prod`).
+2. Invalidates the CloudFront distribution cache so that users receive the most recent version.
+3. Uses GitHub secrets (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`) for secure authentication with AWS.
 
-La política IAM asociada al usuario de despliegue permite únicamente:
+The IAM policy associated with the deployment user allows only:
 
-- Operaciones `s3:PutObject` y `s3:DeleteObject` sobre el bucket específico.  
-- Creación de invalidaciones en la distribución de CloudFront.
+- `s3:PutObject` and `s3:DeleteObject` operations on the specific bucket.
+- Creation of invalidations on the CloudFront distribution.
 
-## Costes
+## Costs
 
-Poniendo un ejemplo de **~400 requests al mes**, los precios serían prácticamente **0 €**.
+Taking an example of **~400 requests per month**, the prices would be practically **€0**.
 
-A continuación, los servicios y sus costes aproximados (fuente: precios oficiales de AWS Europa, agosto 2025, región EU-South-2):
+Below are the services and their approximate costs (source: official AWS Europe prices, August 2025, EU-South-2 region):
 
-- **Amazon S3 (almacenamiento estático):**
-  - Para este caso donde el contenido no supera los 5GB almacenados es prácticamente gratuito
+- **Amazon S3 (static storage):**
+  - In this case, where the content does not exceed 5GB stored, it is practically free.
 
-- **Amazon CloudFront (CDN global):**
-  - Se empezaría a cobrar al llegar a 1 GB de transferencia de datos (para un portfolio no sería el caso)
-  - 400 requests ≈ **0,00 €** (se cobran por cada millón de peticiones)
+- **Amazon CloudFront (global CDN):**
+  - Billing would start upon reaching 1 GB of data transfer (which would not be the case for a portfolio).
+  - 400 requests ≈ **€0.00** (charged per million requests).
 
-- **Amazon Route 53 (gestión de dominio y DNS):**
-  - Registro de dominio `.com` ≈ **15 €/año**
-  - Zona hosteada  ≈ **0,40€/mensual**
+- **Amazon Route 53 (domain and DNS management):**
+  - `.com` domain registration ≈ **€15/year**
+  - Hosted Zone ≈ **€0.40/month**
 
 - **AWS Certificate Manager (ACM):**
-  - Certificados TLS emitidos por ACM → **Gratis**
-  
-📌 **Coste anual estimado total:** ~**20-22 €/año**
+  - TLS Certificates issued by ACM → **Free**
 
-## Problemas y soluciones
-### Problema 1: Certificado ACM
-El principal problema que me he encontrado ha sido a la hora de hacer el Certificado de ACM, ya que CloudFront solo acepta certificados de ACM que estén en la región us-east-1.
-### Problema 2: Alias en Route 53
-Otro problema que he solucionado rápidamente ha sido no crear los Alias en Route 53 tanto para el dominio raíz (portfolio-adrianriera.com) y el subdominio www. Ambos alias tienen que estar apuntando a la distribución de CloudFront creada.
+📌 **Total estimated annual cost:** ~**€20-22/year**
 
-## Despliegue
+## Problems and Solutions
+### Problem 1: ACM Certificate
+The main problem I encountered was when creating the ACM Certificate, as CloudFront only accepts ACM certificates that are in the `us-east-1` region.
+### Problem 2: Alias in Route 53
+Another problem that I quickly resolved was to create the Aliases in Route 53 for both the root domain (`portfolio-adrianriera.com`) and the `www` subdomain. Both aliases must be pointing to the created CloudFront distribution.
 
-El link para acceder al portfolio: [https://portfolio-adrianriera.com](https://portfolio-adrianriera.com)
+## Deployment
+
+The link to access the portfolio: [https://portfolio-adrianriera.com](https://portfolio-adrianriera.com)
 ![Diagrama](images/PortfolioAWS_1.png)
-
