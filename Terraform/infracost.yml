@@ -1,0 +1,7 @@
+version: 0.1
+
+projects:
+  - path: ./core
+    name: Infrastructure-Core
+  - path: ./portfolio-frontend
+    name: Portfolio-Frontend
