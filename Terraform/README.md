@@ -54,7 +54,8 @@ User → Route53 → CloudFront → S3 Bucket
 
 1. **Clone or navigate to the repository**
    ```bash
-   cd c:\Users\reala\Desktop\wallet\Terraform
+   git clone <your-repository-url>
+   cd Terraform
    ```
 
 2. **Deploy Core Infrastructure (Route53)**
