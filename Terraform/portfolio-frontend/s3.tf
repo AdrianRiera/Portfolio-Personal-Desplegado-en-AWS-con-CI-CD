@@ -6,7 +6,17 @@ resource "aws_s3_bucket" "frontend" {
   bucket = var.bucket_name
 }
 
-# 3. Server-Side Encryption
+# 3. Public Access Block (all options enabled for security)
+resource "aws_s3_bucket_public_access_block" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+# 4. Server-Side Encryption
 resource "aws_s3_bucket_server_side_encryption_configuration" "frontend_crypto" {
   bucket = aws_s3_bucket.frontend.id
   rule {
@@ -16,7 +26,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "frontend_crypto" 
   }
 }
 
-# 4. Bucket Policy (Dynamic)
+# 5. Bucket Policy (Dynamic)
 resource "aws_s3_bucket_policy" "frontend_policy" {
   bucket = aws_s3_bucket.frontend.id
 
