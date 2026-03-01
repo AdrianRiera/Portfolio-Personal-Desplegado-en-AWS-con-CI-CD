@@ -52,10 +52,10 @@ User → Route53 → CloudFront → S3 Bucket
 
 ### Installation
 
-1. **Clone or navigate to the repository**
+1. **Clone the repository**
    ```bash
-   git clone <your-repository-url>
-   cd Terraform
+   git clone https://github.com/AdrianRiera/Personal-Portfolio-Deployed-on-AWS-with-CI-CD.git
+   cd Personal-Portfolio-Deployed-on-AWS-with-CI-CD/Terraform
    ```
 
 2. **Deploy Core Infrastructure (Route53)**
