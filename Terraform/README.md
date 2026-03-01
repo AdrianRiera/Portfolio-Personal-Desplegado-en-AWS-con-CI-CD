@@ -1,64 +1,63 @@
 # Terraform Infrastructure - Portfolio Adrian Riera
 
-Infraestructura como código para el portfolio personal usando AWS.
+Infrastructure as code for the personal portfolio using AWS.
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 Terraform/
-├── core/                           # Infraestructura core (DNS)
-│   ├── route53_zone.tf            # Zona Route53 y registros DNS
-│   ├── providers.tf               # Configuración de providers
-│   ├── variables.tf               # Variables del módulo
-│   ├── terraform.tfvars           # Valores de las variables
-│   ├── outputs.tf                 # Outputs del módulo
-│   └── README.md                  # Documentación del módulo
+├── core/                           # Core infrastructure (DNS)
+│   ├── route53_zone.tf            # Route53 zone and DNS records
+│   ├── providers.tf               # Provider configuration
+│   ├── variables.tf               # Module variables
+│   ├── terraform.tfvars           # Variable values
+│   ├── outputs.tf                 # Module outputs
+│   └── README.md                  # Module documentation
 │
-└── aplicaciones/
-    └── portfolio-frontend/        # Frontend del portfolio
-        ├── s3.tf                  # Bucket S3
-        ├── cloudfront.tf          # Distribución CloudFront
-        ├── providers.tf           # Configuración de providers
-        ├── variables.tf           # Variables del módulo
-        ├── terraform.tfvars       # Valores de las variables
-        ├── outputs.tf             # Outputs del módulo
-        └── README.md              # Documentación del módulo
+└── portfolio-frontend/            # Portfolio frontend
+    ├── s3.tf                      # S3 Bucket
+    ├── cloudfront.tf              # CloudFront Distribution
+    ├── providers.tf               # Provider configuration
+    ├── variables.tf               # Module variables
+    ├── terraform.tfvars           # Variable values
+    ├── outputs.tf                 # Module outputs
+    └── README.md                  # Module documentation
 ```
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
 ### Core Infrastructure
-- **Route53**: Gestión de DNS
-  - Dominio principal: `portfolio-adrianriera.com`
-  - Subdominio www: `www.portfolio-adrianriera.com`
-  - Validación de certificado ACM
+- **Route53**: DNS management
+  - Main domain: `portfolio-adrianriera.com`
+  - WWW subdomain: `www.portfolio-adrianriera.com`
+  - ACM certificate validation
 
 ### Portfolio Frontend
-- **S3**: Almacenamiento de archivos estáticos
-- **CloudFront**: CDN global con HTTPS
-- **OAC**: Seguridad bucket-to-CloudFront
+- **S3**: Static file storage
+- **CloudFront**: Global CDN with HTTPS
+- **OAC**: Bucket-to-CloudFront security
 
 ```
-Usuario → Route53 → CloudFront → S3 Bucket
-         (DNS)      (CDN/SSL)    (Storage)
+User → Route53 → CloudFront → S3 Bucket
+       (DNS)     (CDN/SSL)    (Storage)
 ```
 
 ## 🚀 Getting Started
 
-### Prerequisitos
+### Prerequisites
 
-- AWS CLI configurado
+- Configured AWS CLI
 - Terraform >= 1.0
-- Credenciales AWS con permisos necesarios
+- AWS credentials with necessary permissions
 
-### Instalación
+### Installation
 
-1. **Clonar o navegar al repositorio**
+1. **Clone or navigate to the repository**
    ```bash
    cd c:\Users\reala\Desktop\wallet\Terraform
    ```
 
-2. **Desplegar Core Infrastructure (Route53)**
+2. **Deploy Core Infrastructure (Route53)**
    ```bash
    cd core
    terraform init
@@ -66,43 +65,43 @@ Usuario → Route53 → CloudFront → S3 Bucket
    terraform apply
    ```
 
-3. **Desplegar Portfolio Frontend (S3 + CloudFront)**
+3. **Deploy Portfolio Frontend (S3 + CloudFront)**
    ```bash
-   cd ../aplicaciones/portfolio-frontend
+   cd ../portfolio-frontend
    terraform init
    terraform plan
    terraform apply
    ```
 
-## 📋 Módulos
+## 📋 Modules
 
 ### 1. Core (Route53)
 
-Gestiona el DNS y los registros necesarios.
+Manages DNS and required records.
 
-**Recursos:**
-- Hosted Zone Route53
-- Registro A para dominio principal → CloudFront
-- Registro A para www → CloudFront
-- Registro CNAME para validación ACM
+**Resources:**
+- Route53 Hosted Zone
+- A record for main domain → CloudFront
+- A record for www → CloudFront
+- CNAME record for ACM validation
 
-Ver [core/README.md](core/README.md) para más detalles.
+See [core/README.md](core/README.md) for more details.
 
 ### 2. Portfolio Frontend (S3 + CloudFront)
 
-Infraestructura para servir el sitio web estático.
+Infrastructure to serve the static website.
 
-**Recursos:**
-- S3 Bucket (privado, encriptado)
-- CloudFront Distribution (CDN global)
+**Resources:**
+- S3 Bucket (private, encrypted)
+- CloudFront Distribution (global CDN)
 - Origin Access Control (OAC)
-- Políticas de seguridad
+- Security policies
 
-Ver [aplicaciones/portfolio-frontend/README.md](aplicaciones/portfolio-frontend/README.md) para más detalles.
+See [portfolio-frontend/README.md](portfolio-frontend/README.md) for more details.
 
-## 🔧 Configuración
+## 🔧 Configuration
 
-### Variables Principales
+### Main Variables
 
 #### Core (Route53)
 ```hcl
@@ -119,83 +118,83 @@ domain_aliases     = ["portfolio-adrianriera.com", "www.portfolio-adrianriera.co
 acm_certificate_arn = "arn:aws:acm:us-east-1:..."
 ```
 
-## 📦 Despliegue de Contenido
+## 📦 Content Deployment
 
-Después de crear la infraestructura, despliega tu sitio:
+After creating the infrastructure, deploy your site:
 
 ```bash
-# Subir archivos
+# Upload files
 aws s3 sync ./dist s3://portfolio-adrian-prod --delete
 
-# Invalidar caché CloudFront
+# Invalidate CloudFront cache
 aws cloudfront create-invalidation \
   --distribution-id EA81JWYSFP9LI \
   --paths "/*"
 ```
 
-## 🔒 Seguridad
+## 🔒 Security
 
-- ✅ Bucket S3 privado (no público)
-- ✅ Acceso solo vía CloudFront (OAC)
-- ✅ HTTPS forzado
-- ✅ TLS 1.2+ mínimo
-- ✅ Encriptación AES256 en S3
-- ✅ Políticas IAM restrictivas
+- ✅ Private S3 bucket (not public)
+- ✅ Access only via CloudFront (OAC)
+- ✅ Forced HTTPS
+- ✅ Minimum TLS 1.2+
+- ✅ AES256 encryption in S3
+- ✅ Restrictive IAM policies
 
-## 🌐 Dominios
+## 🌐 Domains
 
-- **Principal**: https://portfolio-adrianriera.com
+- **Main**: https://portfolio-adrianriera.com
 - **WWW**: https://www.portfolio-adrianriera.com
 
-Ambos apuntan a la misma distribución CloudFront.
+Both point to the same CloudFront distribution.
 
 ## 📊 Outputs
 
-Cada módulo proporciona outputs útiles:
+Each module provides useful outputs:
 
 ```bash
-# Ver outputs del core
+# View core outputs
 cd core && terraform output
 
-# Ver outputs del frontend
-cd aplicaciones/portfolio-frontend && terraform output
+# View frontend outputs
+cd portfolio-frontend && terraform output
 ```
 
-## 🛠️ Mantenimiento
+## 🛠️ Maintenance
 
-### Actualizar infraestructura
+### Update infrastructure
 
 ```bash
-# En el módulo correspondiente
+# In the corresponding module
 terraform plan
 terraform apply
 ```
 
-### Eliminar recursos
+### Delete resources
 
 ```bash
-# ⚠️ CUIDADO: Esto eliminará todos los recursos
+# ⚠️ WARNING: This will delete all resources
 terraform destroy
 ```
 
-### Ver estado actual
+### View current state
 
 ```bash
 terraform show
 terraform state list
 ```
 
-## 📝 Buenas Prácticas Implementadas
+## 📝 Implemented Best Practices
 
-1. **Modularización**: Separación core vs aplicaciones
-2. **Variables**: Todo parametrizado
-3. **Outputs**: Información útil expuesta
-4. **Documentación**: README en cada módulo
-5. **Seguridad**: Principio de menor privilegio
-6. **Versionado**: Control de estado (terraform.tfstate)
-7. **Defaults sensatos**: Variables con valores por defecto
-8. **Comentarios**: Código bien documentado
-9. **Conditional resources**: Recursos opcionales (www)
+1. **Modularization**: Separation of core vs applications
+2. **Variables**: Everything parameterized
+3. **Outputs**: Useful information exposed
+4. **Documentation**: README in each module
+5. **Security**: Principle of least privilege
+6. **Versioning**: State control (terraform.tfstate)
+7. **Sensible defaults**: Variables with default values
+8. **Comments**: Well-documented code
+9. **Conditional resources**: Optional resources (www)
 10. **AWS Best Practices**: OAC, ALIAS records, cache policies
 
 ## 🐛 Troubleshooting

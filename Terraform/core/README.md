@@ -1,63 +1,63 @@
 # Core Infrastructure - Route53
 
-Este módulo gestiona la infraestructura core de DNS usando AWS Route53.
+This module manages the core DNS infrastructure using AWS Route53.
 
-## Recursos Creados
+## Created Resources
 
-- **Route53 Hosted Zone**: Zona alojada para el dominio principal
-- **Registro A (dominio principal)**: Apunta a CloudFront usando alias
-- **Registro A (subdominio www)**: Apunta a CloudFront usando alias
-- **Registro CNAME**: Para validación del certificado ACM
+- **Route53 Hosted Zone**: Hosted zone for the main domain
+- **A Record (main domain)**: Points to CloudFront using alias
+- **A Record (www subdomain)**: Points to CloudFront using alias
+- **CNAME Record**: For ACM certificate validation
 
 ## Variables
 
-| Variable | Descripción | Tipo | Default | Requerido |
-|----------|-------------|------|---------|-----------|
-| domain_name | Dominio principal | string | - | Sí |
-| zone_comment | Comentario para la zona | string | - | Sí |
-| cloudfront_domain_name | Domain name de CloudFront | string | - | Sí |
-| evaluate_target_health | Evaluar salud del destino | bool | false | No |
-| acm_validation_prefix | Prefijo de validación ACM | string | - | Sí |
-| acm_validation_target | Target de validación ACM | string | - | Sí |
-| www_subdomain | Nombre del subdominio www | string | "www" | No |
-| create_www_record | Crear registro www | bool | true | No |
+| Variable | Description | Type | Default | Required |
+|----------|-------------|------|---------|----------|
+| domain_name | Main domain | string | - | Yes |
+| zone_comment | Comment for the zone | string | - | Yes |
+| cloudfront_domain_name | CloudFront domain name | string | - | Yes |
+| evaluate_target_health | Evaluate target health | bool | false | No |
+| acm_validation_prefix | ACM validation prefix | string | - | Yes |
+| acm_validation_target | ACM validation target | string | - | Yes |
+| www_subdomain | WWW subdomain name | string | "www" | No |
+| create_www_record | Create www record | bool | true | No |
 
 ## Outputs
 
-- `route53_zone_id`: ID de la zona Route53
-- `route53_zone_name_servers`: Name servers de la zona
-- `main_domain_fqdn`: FQDN del dominio principal
-- `www_domain_fqdn`: FQDN del subdominio www
-- `dns_records_summary`: Resumen de registros DNS
+- `route53_zone_id`: Route53 zone ID
+- `route53_zone_name_servers`: Zone name servers
+- `main_domain_fqdn`: Main domain FQDN
+- `www_domain_fqdn`: WWW subdomain FQDN
+- `dns_records_summary`: DNS records summary
 
-## Uso
+## Usage
 
-1. Configurar variables en `terraform.tfvars`
-2. Inicializar Terraform:
+1. Configure variables in `terraform.tfvars`
+2. Initialize Terraform:
    ```bash
    terraform init
    ```
-3. Revisar los cambios:
+3. Review changes:
    ```bash
    terraform plan
    ```
-4. Aplicar los cambios:
+4. Apply changes:
    ```bash
    terraform apply
    ```
 
-## Buenas Prácticas Implementadas
+## Implemented Best Practices
 
-- ✅ Uso de variables para flexibilidad
-- ✅ Valores por defecto sensatos
-- ✅ Registros ALIAS en lugar de CNAME para dominios raíz
+- ✅ Use of variables for flexibility
+- ✅ Sensible default values
+- ✅ ALIAS records instead of CNAME for root domains
 - ✅ Conditional resource creation (www)
-- ✅ Outputs descriptivos
-- ✅ Comentarios claros en el código
-- ✅ Zone ID de CloudFront hardcoded (es global y no cambia)
+- ✅ Descriptive outputs
+- ✅ Clear code comments
+- ✅ Hardcoded CloudFront Zone ID (it's global and never changes)
 
-## Notas
+## Notes
 
-- El Zone ID `Z2FDTNDATAQYW2` es el ID global de CloudFront y nunca cambia
-- Los registros A usan ALIAS para mejor rendimiento y sin costo
-- El subdominio www es opcional y se puede desactivar con `create_www_record = false`
+- The Zone ID `Z2FDTNDATAQYW2` is the global CloudFront ID and never changes
+- A records use ALIAS for better performance and no cost
+- The www subdomain is optional and can be disabled with `create_www_record = false`
