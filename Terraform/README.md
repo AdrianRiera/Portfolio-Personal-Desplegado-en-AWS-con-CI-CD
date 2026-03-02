@@ -198,34 +198,4 @@ terraform state list
 9. **Conditional resources**: Optional resources (www)
 10. **AWS Best Practices**: OAC, ALIAS records, cache policies
 
-## 🐛 Troubleshooting
 
-### Error: Resource already exists
-Si los recursos ya existen en AWS:
-```bash
-terraform import <resource_type>.<name> <aws_id>
-```
-
-### CloudFront tarda en actualizar
-Las actualizaciones de CloudFront pueden tardar 15-20 minutos.
-
-### Certificado SSL no válido
-- Verificar que el certificado esté en **us-east-1** (requerido por CloudFront)
-- Verificar que los dominios en el certificado coincidan con los aliases
-
-### DNS no resuelve
-- Verificar que los Name Servers de Route53 estén configurados en el registrador
-- Esperar propagación DNS (hasta 48h, típicamente <1h)
-
-## 📞 Soporte
-
-Para más información sobre Terraform AWS:
-- [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
-- [AWS CloudFront Documentation](https://docs.aws.amazon.com/cloudfront/)
-- [AWS Route53 Documentation](https://docs.aws.amazon.com/route53/)
-
----
-
-**Última actualización**: Marzo 2026  
-**Autor**: Adrian Riera  
-**Región Principal**: eu-south-2 (Europa - España)
